@@ -1,0 +1,7 @@
+numpy
+matplotlib
+mpl_toolkits
+plotly
+rtree
+basemap
+pqdict
