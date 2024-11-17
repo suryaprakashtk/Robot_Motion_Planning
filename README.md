@@ -1,4 +1,4 @@
-# Robot_Motion_Planning
+# Robot Motion Planning
 ## Overview
 This code implements A* search based planning and RRT sample based planning for a 3D environment. We are given 7 environments described as:
 - All the blocks and the boundaries are given as axis-aligned bounding rectangles.
