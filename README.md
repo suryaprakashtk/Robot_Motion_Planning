@@ -6,6 +6,8 @@ This code implements A* search based planning and RRT sample based planning for 
 - A start point $x_s$ and goal point $x_d$ is given. The objective is to find a path between the start node and to
 goal node without colliding with any obstacles.
 
+The objective is to find a path between the start node and to goal node without colliding with any obstacles.
+
 ## Results
 Visualization of A* results:
 
