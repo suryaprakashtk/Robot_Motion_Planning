@@ -1,5 +1,7 @@
 # Robot Motion Planning
 ## Overview
+This project is a part of coursework Planning and Learning done in Spring 2023.
+
 This code implements A* search based planning and RRT sample based planning for a 3D environment. We are given 7 environments described as:
 - All the blocks and the boundaries are given as axis-aligned bounding rectangles.
 - Each rectangle is described by a 9-dimensional vector, specifying its lower left corner $x_{min}$ , $y_{min}$  , $z_{min}$  and, its upper right corner $x_{max}$  , $y_{max}$ , $z_{max}$ , and its RGB color (for visualization).
