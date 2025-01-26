@@ -1,10 +1,12 @@
-
 # priority queue for OPEN list
 from pqdict import pqdict
 import math
 import numpy as np
 
 class MyAStarNode(object):
+    '''
+    This class represent a node which has the state information and the heuristic values
+    '''
     def __init__(self, pqkey, coord, hval):
         self.pqkey = pqkey
         self.coord = coord
@@ -14,11 +16,18 @@ class MyAStarNode(object):
         self.parent_action = None
         self.closed = False
     def __lt__(self, other):
+        '''Implements the less than operator'''
         return self.g < other.g     
 
 
 class MyAStar(object):
+    '''
+    This class implements the A* algorithm
+    '''
     def __init__(self, boundary, blocks, start, end, map_resolution = 0.5, epsilon = 1, minDistToGoal = 0.1):
+        '''
+        Initialises the bounding box dimensions, start, end, resolution, OPEN and CLOSED lists
+        '''
         self.boundary = boundary
         self.blocks = blocks
         self.start = start
@@ -34,10 +43,14 @@ class MyAStar(object):
     
     
     def priority_function(self,key):
+        ''' Assigns priority to each node'''
         priority = key.g + self.epsilon*key.h
         return priority
     
     def Plan(self):
+        '''
+        Core A* iteration, which adds and removes elements from the Priority Queue.
+        '''
         dR = self.getDirections()
         for key,node in self.open_list.popitems():
             self.closed_list[key] = node
@@ -76,6 +89,10 @@ class MyAStar(object):
         return 
 
     def getPath(self):
+        '''
+        Extracts the path from start to end based on the order in which it was added to the CLOSED List.
+        Each node has a reference to the previous node and traverses up the order to extract the parents until NULL.
+        '''
         goal_node = self.closed_list[tuple(self.finish)]
         path = [goal_node.coord]
         while True:
@@ -88,11 +105,13 @@ class MyAStar(object):
 
 
     def collision(self, point1, point2):
-        # Input: point1 (x,y,z), point2 (x,y,z) and block (N,9)
-        # Output: True if it is colliding with any block, else false
-
-        # only checks the block and siregards boundaries
-        # Retruns true if colliding
+        '''
+        Input: point1 (x,y,z), point2 (x,y,z) and block (N,9)
+        Output: True if it is colliding with any block, else false
+        only checks the block and siregards boundaries
+        Retruns true if colliding
+        '''
+        
         block = self.blocks.copy()
         # Delta error in bounding box checks. Inflates the boxes by this amount
         delta_error = 0.0001
@@ -159,16 +178,17 @@ class MyAStar(object):
         return False
     
     def getHVal(self,coord):
+        '''Heuristic function which returns the H-value to each node'''
         distance = coord - self.goal
         return np.linalg.norm(distance)
     
     def stage_cost(self,coord1, coord2):
-        # stage cost is euclidean distance
+        '''Assigns stage cost between 2 nodes. This is used for constructing graph incrementally. Stage cost here ie Euclidean distance'''
         distance = coord1 - coord2
         return np.linalg.norm(distance)
 
     def getDirections(self):
-
+        '''Template to define the neighbours. Each node has 27 neighbors in 3D space.'''
         dR = np.zeros(shape=(26,3),dtype=float)
 
         dR[0,:] = np.array([1,0,0],dtype = float)

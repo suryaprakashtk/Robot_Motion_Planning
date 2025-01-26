@@ -36,72 +36,19 @@ def draw_map(boundary, blocks, start, goal):
   '''
   Visualization of a planning problem with environment boundary, obstacle blocks, and start and goal points
   '''
-  # fig = plt.figure()
-  # ax = fig.add_subplot(221, projection='3d')
-  # hb = draw_block_list(ax,blocks)
-  # hs = ax.plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
-  # hg = ax.plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')  
-  # ax.set_xlabel('X')
-  # ax.set_ylabel('Y')
-  # ax.set_zlabel('Z')
-  # ax.set_xlim(boundary[0,0],boundary[0,3])
-  # ax.set_ylim(boundary[0,1],boundary[0,4])
-  # ax.set_zlim(boundary[0,2],boundary[0,5])
-  # ax.view_init(elev=30, azim=45)
-
-  # Create a figure and subplots
-  fig, axs = plt.subplots(2, 2, figsize=(12, 8), subplot_kw={'projection': '3d'})
-  # Subplot 1: X-axis projection
-  axs[0, 0].set_title('Projection 1')
-  hb = draw_block_list(axs[0, 0], blocks)
-  hs = axs[0, 0].plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
-  hg = axs[0, 0].plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')
-  axs[0, 0].set_xlabel('X')
-  axs[0, 0].set_ylabel('Y')
-  axs[0, 0].set_zlabel('Z')
-  axs[0, 0].set_xlim(boundary[0,0],boundary[0,3])
-  axs[0, 0].set_ylim(boundary[0,1],boundary[0,4])
-  axs[0, 0].set_zlim(boundary[0,2],boundary[0,5])
-  axs[0, 0].view_init(elev=-90, azim=-90)
-
-  # Subplot 2: Y-axis projection
-  axs[0, 1].set_title('Projection 2')
-  hb = draw_block_list(axs[0, 1], blocks)
-  hs = axs[0, 1].plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
-  hg = axs[0, 1].plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')
-  axs[0, 1].set_xlabel('X')
-  axs[0, 1].set_ylabel('Y')
-  axs[0, 1].set_zlabel('Z')
-  axs[0, 1].set_xlim(boundary[0,0],boundary[0,3])
-  axs[0, 1].set_ylim(boundary[0,1],boundary[0,4])
-  axs[0, 1].set_zlim(boundary[0,2],boundary[0,5])
-  axs[0, 1].view_init(elev=0, azim=90)
-
-  # Subplot 3: Z-axis projection
-  axs[1, 0].set_title('Projection 3')
-  hb = draw_block_list(axs[1, 0], blocks)
-  hs = axs[1, 0].plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
-  hg = axs[1, 0].plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')
-  axs[1, 0].set_xlabel('X')
-  axs[1, 0].set_ylabel('Y')
-  axs[1, 0].set_zlabel('Z')
-  axs[1, 0].set_xlim(boundary[0,0],boundary[0,3])
-  axs[1, 0].set_ylim(boundary[0,1],boundary[0,4])
-  axs[1, 0].set_zlim(boundary[0,2],boundary[0,5])
-  axs[1, 0].view_init(elev=0, azim=180)
-
-  # Subplot 4: 3D projection
-  axs[1, 1].set_title('Projection 4')
-  hb = draw_block_list(axs[1, 1], blocks)
-  hs = axs[1, 1].plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
-  hg = axs[1, 1].plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')
-  axs[1, 1].set_xlabel('X')
-  axs[1, 1].set_ylabel('Y')
-  axs[1, 1].set_zlabel('Z')
-  axs[1, 1].set_xlim(boundary[0,0],boundary[0,3])
-  axs[1, 1].set_ylim(boundary[0,1],boundary[0,4])
-  axs[1, 1].set_zlim(boundary[0,2],boundary[0,5])
-  return fig, axs, hb, hs, hg
+  fig = plt.figure()
+  ax = fig.add_subplot(projection='3d')
+  hb = draw_block_list(ax,blocks)
+  hs = ax.plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
+  hg = ax.plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')  
+  ax.set_xlabel('X')
+  ax.set_ylabel('Y')
+  ax.set_zlabel('Z')
+  ax.set_xlim(boundary[0,0],boundary[0,3])
+  ax.set_ylim(boundary[0,1],boundary[0,4])
+  ax.set_zlim(boundary[0,2],boundary[0,5])
+  ax.view_init(elev=30, azim=45)
+  return fig, ax, hb, hs, hg
 
 def draw_block_list(ax,blocks):
   '''
@@ -140,13 +87,11 @@ def runtest(mapfile, start, goal, verbose = True, filename = "Default"):
   '''
   # Load a map and instantiate a motion planner
   boundary, blocks = load_map(mapfile)
-  # MP = Planner.MyPlanner(boundary, blocks) # TODO: replace this with your own planner implementation
   MP = MyAStar(boundary, blocks, start, goal, map_resolution=0.5, epsilon=1, minDistToGoal = 0.5)
   # Display the environment
   if verbose:
     fig, ax, hb, hs, hg = draw_map(boundary, blocks, start, goal)
 
-  # Call the motion planner
   t0 = tic()
   MP.Plan()
   path = MP.getPath()
@@ -154,16 +99,12 @@ def runtest(mapfile, start, goal, verbose = True, filename = "Default"):
   
   # Plot the path
   if verbose:
-    ax[0,0].plot(path[:,0],path[:,1],path[:,2],'r-')
-    ax[0,1].plot(path[:,0],path[:,1],path[:,2],'r-')
-    ax[1,0].plot(path[:,0],path[:,1],path[:,2],'r-')
-    ax[1,1].plot(path[:,0],path[:,1],path[:,2],'r-')
+    ax.plot(path[:,0],path[:,1],path[:,2],'r-')
+  plt.show()
+
+
 
   path_to_save = global_path + "Astar_output/" + filename + '.png'
-
-  # TODO: You should verify whether the path actually intersects any of the obstacles in continuous space
-  # TODO: You can implement your own algorithm or use an existing library for segment and 
-  #       axis-aligned bounding box (AABB) intersection
 
   # Collision check already handled in the Astar class
   collision = False
